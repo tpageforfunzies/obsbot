@@ -21,6 +21,7 @@ parts
     - listens for reactions on image posts
     - if specific reaction by specific people, send image to server via rest api
     - have command to empty image queue on server via rest api
+    - have command to toggle browser source
     - commands
         - turn on source !carouselon
         - turn off source !carouseloff
