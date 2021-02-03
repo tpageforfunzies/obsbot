@@ -4,7 +4,10 @@ import discord
 import os
 from dotenv import load_dotenv
 from pprint import pprint
+load_dotenv()
 
+TOKEN = os.getenv('TOKEN')
+SERVER_URL = os.getenv('SERVER_URL')
 CHANNEL_ID = 752892962748498024
 APPROVAL_EMOJIS = [
     '🍕',
@@ -15,8 +18,7 @@ APPROVER_ROLES = [
 
 client = discord.Client()
 
-load_dotenv()
-TOKEN = os.getenv('TOKEN')
+
 
 # FLOW
 # on reaction to image post in submission channel with approval emoji by users with approver role
@@ -29,42 +31,62 @@ async def on_ready():
 
 @client.event
 async def on_raw_reaction_add(raw_reaction):
+    # first check if its a reaction in the right channel from the right people with the right emojis
+    # if not, bail
+    if not is_valid_event(raw_reaction):
+        print('we dont care')
+        return   
+    
+    # its the right stuff, is it a reaction to a picture?
+    # if not, bail
+    message_id = raw_reaction.message_id
+    message = await get_message_by_id(message_id)
+    if not message_has_attachment(message):
+        print('no image attachment: we dont care')
+        return
+    
+    # its a proper reaction to an image
+    # grab url and send it to the server
+    url = get_attachment_url(message)
+    print(url)
+    send_url_to_server(url)
+
+    
+# @client.event
+# async def on_message(message):
+#     print('got message')
+#     # pprint(message)
+#     if message.attachments:
+#         print(message.attachments)
+#         print(message.attachments[0])
+#     print(message.content)
+#     print(message.author)
+
+#     if message.content.startswith('$hello'):
+#         await message.channel.send('Hello!')
+
+def is_valid_event(raw_reaction):
+    # check for all the validation early for exit
     user = raw_reaction.member
     reaction = raw_reaction.emoji
     message_id = raw_reaction.message_id
     channel_id = raw_reaction.channel_id
-    print('{} added reaction {} to message id {}'.format(user, reaction, message_id))
-
-
+    print('{} added reaction {} to message id {} in channel {}'.format(user, reaction, message_id, channel_id))
     if not is_submission_channel(channel_id):
-        print('channel id {} is not the submission channel, skipping'.format(channel_id))
-        return
-    
-    if is_submission_channel(channel_id):
-        print('channel id {} is the submission channel'.format(channel_id))
-    if is_approver(user):
-        print('{} is an approver'.format(user))
-    if is_approval_emoji(reaction):
-        print('{} is an approval emoji'.format(reaction))
-    
-    message = await get_message_by_id(message_id)
-    print(message)
-    if message_has_attachment(message)
-        print(message.attachments[0])
+        print('wrong channel')
+        return False
+    if not is_approver(user):
+        print('not an approver')
+        return False
+    if not is_approval_emoji(reaction):
+        print('wrong emoji')
+        return False
+    return True
 
-    
-@client.event
-async def on_message(message):
-    print('got message')
-    # pprint(message)
-    if message.attachments:
-        print(message.attachments)
-        print(message.attachments[0])
-    print(message.content)
-    print(message.author)
-
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
+def send_url_to_server(url):
+    print('send_url_to_server')
+    # send url to server here, probably with requests package
+    # requests.post
 
 def is_approver(user):
     # check if user reacting to image has the appropriate role
@@ -78,7 +100,6 @@ def is_approval_emoji(emoji):
     # check if the reaction was an approval emoji, for quick exit of handler
     # this will be done by getting the hash of the emoji, im not abuot to try to copy and paste emojis around
     emoji_name = emoji.name
-    # print(emoji_name)
     if emoji_name in APPROVAL_EMOJIS:
         return True
     return False
@@ -96,6 +117,11 @@ def message_has_attachment(message):
     if message.attachments:
         return True
     return False
+
+def get_attachment_url(message):
+    print("get_attachment_url")
+    return message.attachments[0].url
+
 
 async def get_message_by_id(message_id):
     # to make the bot be able to handle messages that were sent before
