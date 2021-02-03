@@ -20,8 +20,8 @@ TOKEN = os.getenv('TOKEN')
 
 # FLOW
 # on reaction to image post in submission channel with approval emoji by users with approver role
-# collect the attachment in the post
-# send it to web server
+# collect the attachment url in the post
+# send it to web server to download
 
 @client.event
 async def on_ready():
@@ -31,9 +31,11 @@ async def on_ready():
 async def on_raw_reaction_add(raw_reaction):
     user = raw_reaction.member
     reaction = raw_reaction.emoji
-    message = raw_reaction.message_id
+    message_id = raw_reaction.message_id
     channel_id = raw_reaction.channel_id
-    print('{} added reaction {} to message id {}'.format(user, reaction, message))
+    print('{} added reaction {} to message id {}'.format(user, reaction, message_id))
+
+
     if not is_submission_channel(channel_id):
         print('channel id {} is not the submission channel, skipping'.format(channel_id))
         return
@@ -44,6 +46,12 @@ async def on_raw_reaction_add(raw_reaction):
         print('{} is an approver'.format(user))
     if is_approval_emoji(reaction):
         print('{} is an approval emoji'.format(reaction))
+    
+    message = await get_message_by_id(message_id)
+    print(message)
+    if message_has_attachment(message)
+        print(message.attachments[0])
+
     
 @client.event
 async def on_message(message):
@@ -83,5 +91,22 @@ def is_submission_channel(channel_id):
     if channel_id == CHANNEL_ID:
         return True
     return False
+
+def message_has_attachment(message):
+    if message.attachments:
+        return True
+    return False
+
+async def get_message_by_id(message_id):
+    # to make the bot be able to handle messages that were sent before
+    # it was turned on, we use the raw_reaction which gives us partial data
+    # have to get specific message from that info (id)
+    for channel in client.get_all_channels():
+        try:
+            msg = await channel.fetch_message(message_id)
+        except:
+            continue
+    return msg
+
 
 client.run(TOKEN)
