@@ -9,7 +9,7 @@ def hello():
     return "Hello World!"
 
 @app.route('/carousel')
-def hello():
+def carousel():
     return "carousel template will go here"
 
 if __name__ == '__main__':
