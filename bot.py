@@ -59,10 +59,12 @@ async def on_message(message):
     if message.content.startswith('!flush'):
         print('they said flush')
         flush_server_image_queue()
+        # probably some success/fail return from server here
         return
     if message.content.startswith('!toggle'):
         print('they said toggle')
         toggle_stream_source()
+        # probably some success/fail return from streamlabs here
         return
 
 
