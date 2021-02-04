@@ -53,13 +53,9 @@ async def on_raw_reaction_add(raw_reaction):
 
 @client.event
 async def on_message(message):
-    print('got message')
-    print(message.channel.id)
-    print(message.author)
-    if not is_submission_channel(message.channel.id) and not is_approver(message.author):
+    if not is_submission_channel(message.channel.id) or not is_approver(message.author):
         print('still dont care')
         return
-
     if message.content.startswith('!flush'):
         print('they said flush')
         flush_server_image_queue()
@@ -68,10 +64,6 @@ async def on_message(message):
         print('they said toggle')
         toggle_stream_source()
         return
-
-    """
-        big block comment
-    """
 
 
 def is_valid_event(raw_reaction):
