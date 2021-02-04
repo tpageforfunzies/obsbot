@@ -7,7 +7,7 @@ session expires between requests so cant store in memory
 
 """
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 app = Flask(__name__)
 
 IMAGE_URL = None
@@ -18,7 +18,7 @@ def hello():
 
 @app.route('/carousel')
 def carousel():
-    return "carousel template will go here"
+    return render_template("carousel.html")
 
 @app.route('/addimage', methods=['GET', 'POST'])
 def add_image():
