@@ -91,7 +91,8 @@ def send_url_to_server(url):
     print('send_url_to_server')
     # send url to server here, probably with requests package
     try:
-        response = requests.post('http://{}'.format(SERVER_URL), data = {'image_url':url})
+        response = requests.post('http://{}/addimage'.format(SERVER_URL), data = {'image_url':url})
+        print(response.text)
         print(response)
     except:
         print('something broke')
