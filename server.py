@@ -1,6 +1,12 @@
 # server here
 # pip install flask
 
+"""
+will probably need sqlite db for image urls
+session expires between requests so cant store in memory
+
+"""
+
 from flask import Flask, request
 app = Flask(__name__)
 
@@ -12,18 +18,17 @@ def hello():
 
 @app.route('/carousel')
 def carousel():
-    print(IMAGE_URL)
-    if IMAGE_URL != None:
-        return "{IMAGE_URL}"
     return "carousel template will go here"
 
-@app.route('/addimage', methods=['POST'])
+@app.route('/addimage', methods=['GET', 'POST'])
 def add_image():
     if not request.method == 'POST':
         return('get the fuck outta here that that shit')
 
     image_url = request.form.get('image_url')
-    IMAGE_URL = image_url
+    # probably save the link to a little sqlite db? can't store in mem
+    # will need some more methods to grab, sort, etc for the view
+    # seed scripts would be sick for local set up
     print(image_url)
     return "got it"
 

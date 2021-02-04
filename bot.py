@@ -20,9 +20,11 @@ APPROVER_ROLES = [
 client = discord.Client()
 
 
+# HAVE TO CHANGE THE PUBLIC IP OF THE HOST IN THE ENV FILE AFTER EVERY OFF/ON
 
 # FLOW
-# on reaction to image post in submission channel with approval emoji by users with approver role
+# on reaction (raw_reaction_add handler below) to image post 
+# in submission channel with approval emoji by users with approver role
 # collect the attachment url in the post
 # send it to web server to download
 
@@ -97,12 +99,18 @@ def send_url_to_server(url):
     except:
         print('something broke')
         raise
-    
 
 def flush_server_image_queue():
     # will call an endpoint to empty server queue
     # not implemented on server yet
-    print('flush_server_image_queue')
+    try:
+        response = requests.post('http://{}/flushqueue'.format(SERVER_URL), data = {'hehe':'supersecretpasswordonlythebotknows'})
+        print(response.text)
+        print(response)
+    except:
+        print('something broke')
+        raise
+
 
 def toggle_stream_source():
     # if stream source on -> toggle off, etc
@@ -140,7 +148,6 @@ def message_has_attachment(message):
     return False
 
 def get_attachment_url(message):
-    print("get_attachment_url")
     return message.attachments[0].url
 
 
