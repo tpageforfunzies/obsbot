@@ -38,7 +38,8 @@ def add_image():
         return('get the fuck outta here that that shit for real tho')
 
     password = request.form.get('hehe')
-    if password != 'supersecretpasswordonlythebotknows'
+    if password != 'supersecretpasswordonlythebotknows':
+        return "hm"
     # wtf do we do here
     # will probably depend on implementation of db+carousel
     # maybe the image url rows have a seen field and we mark em all seen or something, or just delete them?
