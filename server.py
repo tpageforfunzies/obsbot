@@ -33,7 +33,7 @@ def add_image():
     return "got it"
 
 @app.route('/flushqueue', methods=['GET', 'POST'])
-def add_image():
+def flush_queue():
     if not request.method == 'POST':
         return('get the fuck outta here that that shit for real tho')
 
