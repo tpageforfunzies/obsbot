@@ -12,14 +12,14 @@ decisions/questions
  - keep images in memory vs save to server/bucket (cheaper/smaller queue vs $$/bigger queue/persistence)
 
 parts
-- channel (#image-submissions in obs' discord)
-    - any can submit pics
-    - admin/specific role can react with emoji
+- channel (#image-submissions in obs' discord) - done(tested)
+    - any can submit pics - done(tested)
+    - admin/specific role can react with emoji done(tested)
     - lock down to only image uploads (no text possible?)
 - bot (python script on aws host)
-    - listens to right channel in right discord
-    - listens for reactions on image posts
-    - if specific reaction by specific people, send image to server via rest api
+    - listens to right channel in right discord - done
+    - listens for reactions on image posts - done
+    - if specific reaction by specific people, send image to server via rest api - done
     - have command to empty image queue on server via rest api
     - have command to toggle browser source
     - commands
