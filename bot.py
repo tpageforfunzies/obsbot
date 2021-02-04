@@ -51,6 +51,29 @@ async def on_raw_reaction_add(raw_reaction):
     print(url)
     send_url_to_server(url)
 
+@client.event
+async def on_message(message):
+    print('got message')
+    print(message.channel.id)
+    print(message.author)
+    if not is_submission_channel(message.channel.id) and not is_approver(message.author):
+        print('still dont care')
+        return
+
+    if message.content.startswith('!flush'):
+        print('they said flush')
+        flush_server_image_queue()
+        return
+    if message.content.startswith('!toggle'):
+        print('they said toggle')
+        toggle_stream_source()
+        return
+
+    """
+        big block comment
+    """
+
+
 def is_valid_event(raw_reaction):
     # check for all the validation early for exit
     user = raw_reaction.member
@@ -73,6 +96,16 @@ def send_url_to_server(url):
     print('send_url_to_server')
     # send url to server here, probably with requests package
     # requests.post
+
+def flush_server_image_queue():
+    # will call an endpoint to empty server queue
+    # not implemented on server yet
+    print('flush_server_image_queue')
+
+def toggle_stream_source():
+    # if stream source on -> toggle off, etc
+    # will prob need some kind of api key for obs' streamlabs
+    print('toggle_stream_source')
 
 def is_approver(user):
     # check if user reacting to image has the appropriate role
