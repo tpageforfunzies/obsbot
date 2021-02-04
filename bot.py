@@ -1,6 +1,7 @@
 # pip install discord.py and dotenv
 
 import discord
+import requests
 import os
 from dotenv import load_dotenv
 from pprint import pprint
@@ -89,7 +90,12 @@ def is_valid_event(raw_reaction):
 def send_url_to_server(url):
     print('send_url_to_server')
     # send url to server here, probably with requests package
-    # requests.post
+    try:
+        requests.post(SERVER_URL, data = {'image_url':url})
+    except:
+        print('something broke')
+        raise
+    
 
 def flush_server_image_queue():
     # will call an endpoint to empty server queue
