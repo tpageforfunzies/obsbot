@@ -8,7 +8,7 @@ load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
 SERVER_URL = os.getenv('SERVER_URL')
-CHANNEL_ID = 752892962748498024
+CHANNEL_ID = 752892962748498024 #image-submissions
 APPROVAL_EMOJIS = [
     '🍕',
 ] 
@@ -50,20 +50,6 @@ async def on_raw_reaction_add(raw_reaction):
     url = get_attachment_url(message)
     print(url)
     send_url_to_server(url)
-
-    
-# @client.event
-# async def on_message(message):
-#     print('got message')
-#     # pprint(message)
-#     if message.attachments:
-#         print(message.attachments)
-#         print(message.attachments[0])
-#     print(message.content)
-#     print(message.author)
-
-#     if message.content.startswith('$hello'):
-#         await message.channel.send('Hello!')
 
 def is_valid_event(raw_reaction):
     # check for all the validation early for exit
