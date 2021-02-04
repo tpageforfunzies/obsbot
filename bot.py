@@ -90,8 +90,6 @@ def is_valid_event(raw_reaction):
     return True
 
 def send_url_to_server(url):
-    print('send_url_to_server')
-    # send url to server here, probably with requests package
     try:
         response = requests.post('http://{}/addimage'.format(SERVER_URL), data = {'image_url':url})
         print(response.text)
