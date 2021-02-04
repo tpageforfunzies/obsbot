@@ -1,7 +1,7 @@
 # server here
 # pip install flask
 
-from flask import Flask
+from flask import Flask, request
 app = Flask(__name__)
 
 @app.route('/')
@@ -19,6 +19,7 @@ def add_image():
 
     image_url = request.form.get('image_url')
     print(image_url)
+    return "got it"
 
 
 if __name__ == '__main__':
