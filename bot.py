@@ -3,19 +3,16 @@
 import discord
 import requests
 import os
+import json
 from dotenv import load_dotenv
 from pprint import pprint
 load_dotenv()
 
 TOKEN = os.getenv('TOKEN')
 SERVER_URL = os.getenv('SERVER_URL')
-CHANNEL_ID = 752892962748498024 #image-submissions
-APPROVAL_EMOJIS = [
-    '🍕',
-] 
-APPROVER_ROLES = [
-    'approver'
-]
+CHANNEL_ID = int(os.getenv('CHANNEL_ID'))
+APPROVAL_EMOJIS = json.loads(os.getenv('APPROVAL_EMOJIS'))
+APPROVER_ROLES = json.loads(os.getenv('APPROVER_ROLES'))
 
 client = discord.Client()
 

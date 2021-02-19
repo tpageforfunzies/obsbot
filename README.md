@@ -15,24 +15,22 @@ parts
 - channel (#image-submissions in obs' discord) - done(tested)
     - any can submit pics - done(tested)
     - admin/specific role can react with emoji done(tested)
-    - lock down to only image uploads (no text possible?)
+    - lock down to only image uploads (no text possible?) - done
 - bot (python script on aws host)
     - listens to right channel in right discord - done
     - listens for reactions on image posts - done
     - if specific reaction by specific people, send image to server via rest api - done
-    - have command to empty image queue on server via rest api
-    - have command to toggle browser source
+    - have command to empty image queue on server via rest api - done
+    - have command to toggle browser source - not doing in discord bot, will be obs chat bot
     - commands
-        - turn on source !carouselon
-        - turn off source !carouseloff
-        - empty queue !flush
+        - empty queue !flush - done
 - server (flask app on aws host)
-    - single html view with image carousel (bootstrap probably)
-    - maintain image queue
-    - transition between images
+    - single html view with image carousel (bootstrap probably) - done
+    - maintain image queue - done
+    - transition between images - done
     - rest api
-        - add image to queue
-        - remove image from queue
-        - skip image
-        - rewind
-        - empty queue
+        - add image to queue - done
+        - remove image from queue - done
+        - skip image - done
+        - rewind - not doing
+        - empty queue - done
