@@ -49,6 +49,19 @@ def flush_queue():
     empty_queue()
     return "Got it", 200
 
+@app.route('/imageseen', methods=['GET', 'POST'])
+def seen_image():
+    if not request.method == 'POST':
+        return('get the fuck outta here that that shit')
+
+    image_url = request.form.get('image_url')
+    print(request)
+    print(request.form)
+    print(image_url)
+
+    skip_image(image_url)
+    return "Got it", 201
+
 def get_db_path():
     global DATABASE_NAME
     if not DATABASE_NAME:
@@ -84,7 +97,7 @@ def empty_queue():
 def skip_image(image_url):
     conn = create_connection()
     cur = conn.cursor()
-    cur.execute('UPDATE image SET seen = 1 where url = image_url')
+    cur.execute('UPDATE image SET seen = 1 WHERE url = ?', (image_url,))
     conn.commit()
     conn.close()
     return cur.lastrowid
@@ -102,6 +115,7 @@ def get_unseen_images():
     conn.close()
     print(image_url_list)
     return image_url_list
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
