@@ -19,7 +19,8 @@ def hello():
 
 @app.route('/carousel')
 def carousel():
-    return render_template("carousel.html")
+    images = get_unseen_images()
+    return render_template("carousel.html", title='Carousel', images=images)
 
 @app.route('/addimage', methods=['GET', 'POST'])
 def add_image():
@@ -87,6 +88,20 @@ def skip_image(image_url):
     conn.commit()
     conn.close()
     return cur.lastrowid
+
+def get_unseen_images():
+    # get all the unseen image urls in a list for the carousel handler to pass to template
+    image_url_list = []
+
+    conn = create_connection()
+    cur = conn.cursor()
+    for image in cur.execute('SELECT * from image WHERE seen = 0'):
+        print(image)
+        image_url_list.append(image[0])
+    conn.commit()
+    conn.close()
+    print(image_url_list)
+    return image_url_list
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
