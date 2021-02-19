@@ -35,7 +35,7 @@ def main():
     database = cwd + "/{}.db".format(DATABASE_NAME)
     print(database)
 
-    sql_create_image_table = """ CREATE TABLE IF NOT EXISTS image(url text PRIMARY KEY, seen integer); """
+    sql_create_image_table = """ CREATE TABLE IF NOT EXISTS image(url text, seen integer); """
 
     conn = create_connection(database)
     with conn:
