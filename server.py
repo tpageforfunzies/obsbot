@@ -44,6 +44,8 @@ def flush_queue():
     # will probably depend on implementation of db+carousel
     # maybe the image url rows have a seen field and we mark em all seen or something, or just delete them?
     print(password)
+
+    empty_queue()
     return "Got it", 200
 
 def get_db_path():
@@ -71,11 +73,19 @@ def add_image_to_db(image_url):
     conn.close()
     return cur.lastrowid
 
+def empty_queue():
+    conn = create_connection()
+    cur = conn.cursor()
+    cur.execute('UPDATE image SET seen = 1 WHERE seen = 0')
+    conn.commit()
+    conn.close()
+
 def skip_image(image_url):
-    global conn
+    conn = create_connection()
     cur = conn.cursor()
     cur.execute('UPDATE image SET seen = 1 where url = image_url')
     conn.commit()
+    conn.close()
     return cur.lastrowid
 
 if __name__ == '__main__':
