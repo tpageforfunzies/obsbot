@@ -36,6 +36,14 @@ Run the bot and the server
 
     python3 bot.py
     sudo python3 server.py
+    
+Add the source to your streamlabs/obs
+
+    URL: http://<server ip from env>/carousel
+    Width/Height: up to you, i did 360x360
+    I left the CSS for transparent background
+    Make sure "Refresh Browser when scene becomes active" is checked
+    
 
 
 my brainstorming notes:
