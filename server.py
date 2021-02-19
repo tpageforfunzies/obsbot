@@ -10,6 +10,8 @@ from pprint import pprint
 load_dotenv()
 
 DATABASE_NAME = os.getenv('DATABASE_NAME')
+SERVER_URL = os.getenv('SERVER_URL')
+CAROUSEL_DELAY = os.getenv('CAROUSEL_DELAY')
 
 app = Flask(__name__)
 
@@ -20,7 +22,7 @@ def hello():
 @app.route('/carousel')
 def carousel():
     images = get_unseen_images()
-    return render_template("carousel.html", title='Carousel', images=images)
+    return render_template("carousel.html", title='Carousel', images=images, server_url=SERVER_URL, delay=CAROUSEL_DELAY)
 
 @app.route('/addimage', methods=['GET', 'POST'])
 def add_image():
@@ -41,10 +43,6 @@ def flush_queue():
     password = request.form.get('hehe')
     if password != 'supersecretpasswordonlythebotknows':
         return "hm"
-    # wtf do we do here
-    # will probably depend on implementation of db+carousel
-    # maybe the image url rows have a seen field and we mark em all seen or something, or just delete them?
-    print(password)
 
     empty_queue()
     return "Got it", 200
@@ -55,9 +53,6 @@ def seen_image():
         return('get the fuck outta here that that shit')
 
     image_url = request.form.get('image_url')
-    print(request)
-    print(request.form)
-    print(image_url)
 
     skip_image(image_url)
     return "Got it", 201
@@ -109,11 +104,9 @@ def get_unseen_images():
     conn = create_connection()
     cur = conn.cursor()
     for image in cur.execute('SELECT * from image WHERE seen = 0'):
-        print(image)
         image_url_list.append(image[0])
     conn.commit()
     conn.close()
-    print(image_url_list)
     return image_url_list
 
 

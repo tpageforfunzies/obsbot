@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="3000">
+  <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel" data-interval="{{ delay }}">
     <div class="carousel-inner">
       {% if images %}
         <div class="carousel-item active">
@@ -28,13 +28,18 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
+{% block javascript %}
 <script>
 
   async function update_db(url) {
+    let server_url = '{{ server_url }}'
+    update_url = 'http://' + server_url + '/imageseen'
+
     let imgFormData = new FormData()
     imgFormData.append('image_url', url)
+
     try {     
-    const response = await fetch('http://18.217.152.135:80/imageseen', {
+    const response = await fetch(update_url, {
       method: 'post',
       body: imgFormData
     });
@@ -45,19 +50,11 @@
   }
 
   $('#carouselExampleSlidesOnly').on('slid.bs.carousel', function (e) {
-
     let seenUrl = e.relatedTarget.childNodes[1].currentSrc;
-
-    if (e.from == 0) {
-      console.log('first one')
-    }
-
-    console.log('just saw: ' + seenUrl)
-
     update_db(seenUrl)
-
-
   })
+
 </script>
+{% endblock %}
 
 </html>
