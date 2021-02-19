@@ -68,6 +68,7 @@ def add_image_to_db(image_url):
     cur = conn.cursor()
     cur.execute('INSERT INTO image(url, seen) VALUES(?, 0)', (image_url,))
     conn.commit()
+    conn.close()
     return cur.lastrowid
 
 def skip_image(image_url):
