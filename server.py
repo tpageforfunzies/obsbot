@@ -1,18 +1,17 @@
 # server here
 # pip install flask
 
-"""
-will probably need sqlite db for image urls
-session expires between requests so cant store in memory
-
-"""
 import os
 import sqlite3
 from sqlite3 import Error
 from flask import Flask, request, render_template
+from dotenv import load_dotenv
+from pprint import pprint
+load_dotenv()
+
+DATABASE_NAME = os.getenv('DATABASE_NAME')
 
 app = Flask(__name__)
-IMAGE_URL = None
 
 @app.route('/')
 def hello():
@@ -28,10 +27,8 @@ def add_image(conn):
         return('get the fuck outta here that that shit')
 
     image_url = request.form.get('image_url')
-    # probably save the link to a little sqlite db? can't store in mem
-    # will need some more methods to grab, sort, etc for the view
-    # seed scripts would be sick for local set up
     print(image_url)
+
     add_image(conn, image_url)
     return "Got it", 201
 
@@ -75,7 +72,7 @@ def skip_image(image_url):
 
 if __name__ == '__main__':
     cwd = os.getcwd()
-    database = cwd + "pythonsqlite.db"
+    database = cwd + "{}.db".format(DATABASE_NAME)
     print(database)
     conn = create_connection(database)
     app.run(host='0.0.0.0', port=80)

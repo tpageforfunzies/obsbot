@@ -1,6 +1,11 @@
 import sqlite3
 import os
 from sqlite3 import Error
+from dotenv import load_dotenv
+from pprint import pprint
+load_dotenv()
+
+DATABASE_NAME = os.getenv('DATABASE_NAME')
 
 def create_table(conn, create_table_sql):
     """ create a table from the create_table_sql statement
@@ -26,7 +31,8 @@ def create_connection(db_file):
 
 def main():
     cwd = os.getcwd()
-    database = cwd + "pythonsqlite.db"
+    database = cwd + "{}.db".format(DATABASE_NAME)
+    print(database)
 
     sql_create_image_table = """ CREATE TABLE IF NOT EXISTS image(url text PRIMARY KEY, seen integer); """
 
