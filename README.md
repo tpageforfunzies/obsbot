@@ -2,14 +2,20 @@
 obsbot repo: will have bot and server code since they go on same host
 
 Setup:
+
 Discord Setup:
+
     Create discord bot (token will be put in .env file)
     add to discord server
     give permission
     add role for image approver (will be put in .env file)
+
 Clone repo onto host
+
     Ensure security/traffic rules allow http on port 80
+    
 Rename .envlocal to .env and update values:
+
     TOKEN= discord bot token from earlier goes here
     SERVER_URL= public IP of host bot/server are runnning/listening on
     DATABASE_NAME= what you want your db name to be 
@@ -17,11 +23,15 @@ Rename .envlocal to .env and update values:
     APPROVAL_EMOJIS= the emojis you want the bot to listen for (pizza is default) (list)
     APPROVER_ROLES= the roles that you want to bot to listen for approval from ('approver' is default) (list)
     CAROUSEL_DELAY= how long you want the images up before they scroll (3000ms/3s is default)
+
 Set up environment
+
     python3, pip3
     pip install: flask, sqlite3, dotenv, discord packages
     ensure .env file is accurate
+
 Run the bot and the server
+
     python3 bot.py
     sudo python3 server.py
 
