@@ -29,6 +29,8 @@ Set up environment
     python3, pip3
     pip install: flask, sqlite3, dotenv, discord packages
     ensure .env file is accurate
+    run the db set up script
+        python3 sqlLiteDbStartup.py
 
 Run the bot and the server
 
